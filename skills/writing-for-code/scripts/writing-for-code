@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+"""Launch the writing_for_code package from any directory, also through a
+symlink."""
+
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+
+from writing_for_code.cli import main  # noqa: E402
+
+sys.exit(main())
