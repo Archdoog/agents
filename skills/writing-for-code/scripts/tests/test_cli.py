@@ -91,6 +91,12 @@ class Rules(unittest.TestCase):
         for name in SURFACES:
             self.assertEqual(run(["rules", "--surface", name])[0], 0, name)
 
+    def test_each_surface_has_its_guide(self):
+        skill = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        for name, surface in SURFACES.items():
+            path = os.path.join(skill, "surfaces", surface.guide)
+            self.assertTrue(os.path.isfile(path), f"{name}: {path}")
+
     def test_codes_are_unique_and_surfaces_exist(self):
         for code, r in rules.REGISTRY.items():
             self.assertEqual(code, r.code)
