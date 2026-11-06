@@ -52,6 +52,16 @@ class SlopFires(unittest.TestCase):
                          "warning")
 
 
+class Tone(unittest.TestCase):
+    def test_vague_error_only_on_the_error_surface(self):
+        self.assertIn("ERR001", codes("Oops! Something went wrong.", "error"))
+        self.assertNotIn("ERR001", codes("Oops! Something went wrong.", "doc"))
+
+    def test_review_filler_only_on_the_review_surface(self):
+        self.assertIn("REVIEW001", codes("Great work! LGTM.", "review"))
+        self.assertNotIn("REVIEW001", codes("Great work! LGTM.", "pr"))
+
+
 class TechnicalWordsStayClean(unittest.TestCase):
     """Words that sound like slop but have a technical meaning."""
 

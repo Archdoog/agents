@@ -102,4 +102,4 @@ def active(surface: str, mode: str) -> List[Rule]:
 
 
 # Each import registers the rules in that module.
-from . import commits, sentences, slop, structure, words  # noqa: E402,F401
+from . import commits, sentences, slop, structure, tone, words  # noqa: E402,F401
