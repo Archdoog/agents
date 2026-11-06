@@ -2,8 +2,8 @@
 
 The masks replace quoted material with spaces and keep every newline, so each
 line and column in a finding points at the real source. The masks cover code
-blocks, code spans, command lines, blockquotes, YAML frontmatter, HTML, URLs,
-link targets, and the text between `<!-- writing-for-code: off -->` and
+blocks, code spans, command lines, blockquotes, quoted text, YAML
+frontmatter, HTML, URLs, link targets, and the text between `<!-- writing-for-code: off -->` and
 `<!-- writing-for-code: on -->`.
 """
 
@@ -31,6 +31,8 @@ INLINE_MASKS = [
     re.compile(r"\$\{\{[^}]*\}\}"),              # GitHub Actions expression
     re.compile(r"\{\{[^}]*\}\}"),                # template placeholder
     re.compile(r"<[^>\n]+>"),                    # HTML tag
+    re.compile(r'(?<![\w"])"[^"\n]{1,160}"(?![\w"])'),  # quoted text
+    re.compile(r"“[^”\n]{1,160}”"),             # quoted text, curly quotes
 ]
 
 # A code span in flowed markdown can wrap onto the next line.

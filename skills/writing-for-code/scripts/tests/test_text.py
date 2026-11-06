@@ -56,6 +56,10 @@ class Masking(unittest.TestCase):
     def test_github_actions_expression(self):
         self.assertEqual(codes("Run for ${{ matrix.utilize }} now."), [])
 
+    def test_quoted_text(self):
+        self.assertEqual(codes('Do not write "I hope this helps" or “didn\'t”.'), [])
+        self.assertIn("STE003", codes('The "parser" didn\'t start.'))
+
     def test_command_line_is_quoted(self):
         self.assertEqual(codes("Usage:\n./install.sh --utilize; didn't\n"), [])
 
