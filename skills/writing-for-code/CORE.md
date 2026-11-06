@@ -1,13 +1,6 @@
 # Core — how to write prose for code
 
-Read this file before you write for any surface. Then read the file for
-your surface in `surfaces/`, and run the prune pass in `PRUNE.md`.
-
 ## Scope
-
-The skill covers the prose that developers write for other developers. That
-is comments, docstrings, READMEs, guides, error messages, and changelogs. It
-is also commit messages, PR bodies, issues, and review comments.
 
 Do not rewrite:
 
@@ -15,7 +8,6 @@ Do not rewrite:
   comment above the code, not to the code.
 - Quoted material: logs, diffs, stack traces, and the words of a person.
   Quote them exactly.
-- Text that you did not write and that the user did not ask you to edit.
 
 ## Precedence
 
@@ -23,8 +15,6 @@ Do not rewrite:
    of the nearby code or text.
 2. The official guide for the language, for docstrings.
 3. This skill.
-
-If the repo has a convention, use it, also when this skill says otherwise.
 
 ## The universal rule
 
@@ -57,8 +47,7 @@ Write only what the reader needs to act correctly:
   says.
 - The story of how you got here: the debug session, the attempts, the
   surprise.
-- The alternatives that you did not take. A PR body and an ADR can hold
-  them. A comment cannot.
+- The alternatives that you did not take.
 - Chat text: "Certainly!", "I hope this helps",
   "Let me know if you want more".
 - Lead-ins that announce the text: "This section describes",
@@ -114,21 +103,3 @@ with "and", "but", "because", or "so".
 - Keep each fact, number, name, date, and link that the text supports. A
   rewrite that drops one has failed.
 - Do not add facts, opinions, or a voice that the text did not have.
-- Change only the text that the user named.
-- When the user asks for a rewrite, return the text and nothing else.
-
-## Then
-
-1. Read the file for your surface in `surfaces/`. `SKILL.md` has the table.
-2. Run the prune pass in `PRUNE.md`.
-3. Run the tool:
-
-   ```sh
-   scripts/writing-for-code lint --surface SURFACE FILE   # or - for stdin
-   scripts/writing-for-code check                         # before a commit or a PR
-   ```
-
-4. Fix each error. Read each warning, and fix it if it is correct.
-
-The tool checks form only. It cannot tell if a sentence is true or
-necessary. A clean report is not a good document.

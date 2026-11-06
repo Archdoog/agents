@@ -1,4 +1,4 @@
-"""The ASD-STE100 rules, ported from the ste-lint suite.
+"""The ASD-STE100 rules.
 
 Most of these are false-positive tests. A checker that fires on quoted logs,
 possessives, or its own examples teaches an agent to ignore it.

@@ -41,6 +41,9 @@ scripts/writing-for-code rules --surface comment        # the rules for a surfac
 Exit status: 0 clean, 1 errors, 2 bad usage. Errors are rule breaks. Fix
 them. Warnings and comment flags are leads. Read each one and decide.
 
+The tool checks form only. It cannot tell if a sentence is true or
+necessary. A clean report is not a good document.
+
 To make the tool skip a region of markdown, put it between
 `<!-- writing-for-code: off -->` and `<!-- writing-for-code: on -->`. The
 tool skips quoted text, code, and URLs without a switch.

@@ -74,7 +74,7 @@ def changed_files(base: str) -> Dict[str, Optional[Set[int]]]:
 
 def commit_messages(base: str) -> List[Tuple[str, str]]:
     """Return (short sha, message) for each commit on HEAD that is not on
-    `base`. Merge commits are left out."""
+    `base`. The list does not include merge commits."""
     raw = run("log", "--no-merges", "--format=%h%x00%B%x01", f"{merge_base(base)}..HEAD")
     out = []
     for entry in raw.split("\x01"):

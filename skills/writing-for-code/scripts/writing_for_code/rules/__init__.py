@@ -4,8 +4,8 @@ A rule is a function that reads one piece of text and yields
 `(offset, message)` pairs. The `scope` sets what text it gets:
 
 - `text`: each prose block and each table row.
-- `sentence`: each sentence. Table cells are fragments, so they are left out.
-- `paragraph`: each paragraph. Lists are left out.
+- `sentence`: each sentence. Table cells are fragments, so they do not count.
+- `paragraph`: each paragraph. A list is not a paragraph.
 - `document`: the whole input, unmasked. Use it for rules about lines, such
   as a commit subject.
 

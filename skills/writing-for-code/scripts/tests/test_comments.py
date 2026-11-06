@@ -1,4 +1,4 @@
-"""The comment scanner and its flags, ported from the comment-extract suite."""
+"""The comment scanner and its flags."""
 
 import unittest
 

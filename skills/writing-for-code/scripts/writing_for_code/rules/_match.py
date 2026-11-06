@@ -17,7 +17,7 @@ def phrase_pattern(phrase: str) -> re.Pattern:
 def find_phrases(text: str, phrases: Iterable[str]) -> Iterator[Tuple[int, str]]:
     """Yield (offset, phrase) for each match. `phrase` is the list entry.
 
-    Where two matches overlap, only the longest phrase is reported.
+    Where two matches overlap, yield only the longest phrase.
     """
     taken = []
     hits = []
