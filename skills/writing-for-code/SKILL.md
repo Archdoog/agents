@@ -28,9 +28,8 @@ Read [CORE.md](CORE.md) and [PRUNE.md](PRUNE.md). Then load only the surface tha
 | Issues | [issues](surfaces/issues.md) | Flavored |
 | Code reviews | [reviews](surfaces/reviews.md) | Flavored |
 
-For docstrings, also load the matching language note from `languages/`.
 For mixed documents, apply strict mode to operational steps and diagnostics.
-Do not load every surface or language note for one task.
+Do not load every surface for one task.
 
 Repository instructions, templates, and established terminology take precedence over these defaults.
 Stay within the requested scope. A review request produces findings, not edits.

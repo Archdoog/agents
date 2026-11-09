@@ -13,20 +13,12 @@ Add an example when correct use is not obvious. Include enough setup to make it 
 Do not add empty sections or parameter descriptions that merely repeat names.
 A summary and a link are enough only when they convey the complete caller contract.
 
-Load only the matching language note:
+Follow nearby documentation examples and inspect the repository's documentation generator configuration.
+Preserve annotations that carry type information and caller obligations that affect safety or correct use.
+Do not invent guarantees or tags by analogy with another language.
 
-| Language | Note |
-|---|---|
-| Swift | [swift.md](../languages/swift.md) |
-| Kotlin | [kotlin.md](../languages/kotlin.md) |
-| Rust | [rust.md](../languages/rust.md) |
-| TypeScript and JavaScript | [typescript-javascript.md](../languages/typescript-javascript.md) |
-| Python | [python.md](../languages/python.md) |
-
-Before documenting a public API, fetch its official language guide once per session.
-Use the pinned reference as a baseline, then check the version that the repository uses.
-For another language, fetch its official documentation-comment guide before writing docstrings.
-Also inspect the project's generator configuration. Do not invent tags by analogy with another language.
+When syntax, tags, or version support are uncertain, check official documentation for the repository's language and generator versions.
+Use available documentation builds or example tests when they can verify the affected syntax or behavior.
 
 If you cannot fetch a required reference, state that limit and separate unverified syntax from checked guidance.
 Do not claim that a documentation build or example test passed unless you ran it.
