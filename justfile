@@ -1,5 +1,5 @@
 pre-pr:
-    for script in skills/resolve-pr-comments/scripts/*.sh; do bash -n "$script" || exit; done
-    shellcheck -x -P SCRIPTDIR skills/resolve-pr-comments/scripts/*.sh
-    python3 -m unittest discover -s tests -v
+    uv run --locked ruff check skills tests
+    uv run --locked ruff format --check skills tests
+    uv run --locked python -m unittest discover -s tests -v
     git diff --check

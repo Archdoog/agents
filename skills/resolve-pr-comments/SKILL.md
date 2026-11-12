@@ -12,16 +12,18 @@ This skill needs no organization-specific tools, labels, project boards, or othe
 
 ## Setup
 
-Use Bash, Git, GitHub CLI (`gh`), and `jq`.
+Use Python 3.11 or later, `uv`, Git, and GitHub CLI (`gh`).
+The CLI uses HTTPX for API requests and Python's `argparse` for command arguments.
 Authenticate `gh` with access to the target repository.
 Comment and thread permissions depend on the repository and account.
-Run scripts from a checkout of the target repository.
-Use each script's installed path, which can differ from the target checkout.
+
+Run the CLI from a checkout of the target repository.
+Use the installed path to `scripts/pr_comments.py`, which can differ from the target checkout.
 See [REFERENCE.md](REFERENCE.md) for commands and output fields.
 
 ## Workflow
 
-1. Run `pr-threads.sh [PR_NUMBER]` to read the PR and feedback.
+1. Run `uv run /path/to/scripts/pr_comments.py list [PR_NUMBER]` to read the PR and feedback.
 2. Confirm the repository, PR URL, author, viewer, base branch, and head branch.
 3. Check that the checkout contains the PR head before you edit code.
 4. Read each unresolved thread, conversation comment, and review summary in context.
@@ -30,7 +32,7 @@ See [REFERENCE.md](REFERENCE.md) for commands and output fields.
 7. Commit and push the fixes to the PR branch before you claim that a fix is available.
 8. Reply to each actionable item with the result and relevant commit, if any.
 9. Resolve an inline thread only after its reply succeeds and its fix passes the required checks.
-10. Run `pr-threads.sh` again to confirm the result.
+10. Run the `list` command again to confirm the result.
 11. Report fixes, answers, failed checks, and open questions with comment URLs.
 
 A request to use this skill authorizes relevant replies and thread resolutions on the specified PR.

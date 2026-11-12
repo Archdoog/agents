@@ -10,12 +10,14 @@ Reusable agent skills for public repositories. This project uses the BSD 3-Claus
 
 Copy `skills/resolve-pr-comments` into your agent's skill directory.
 Keep `SKILL.md`, `REFERENCE.md`, and `scripts/` together.
-Run the scripts from a checkout of the target repository.
-The skill requires Bash, Git, GitHub CLI, and `jq`.
+Run the Python CLI from a checkout of the target repository.
+The skill requires Python 3.11 or later, `uv`, Git, and GitHub CLI.
+`uv` installs the HTTPX dependency declared in the script.
 It follows the target repository's rules and supports fork PRs.
 
 ## Development
 
-Run `just pre-pr` to check shell syntax, ShellCheck findings, script behavior, and whitespace.
-The checks require `just`, `shellcheck`, Python 3, and the skill's runtime dependencies.
-The tests use a fake GitHub CLI and do not post comments.
+Run `just pre-pr` to check Ruff lint, formatting, CLI behavior, and whitespace.
+The checks require `just`, `uv`, and Python 3.11 or later.
+`uv` installs the development dependencies from `uv.lock`.
+The tests use HTTPX mock transport and do not post comments.

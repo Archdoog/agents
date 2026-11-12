@@ -1,26 +1,39 @@
-# Script reference
+# Python CLI reference
 
-Run these scripts from the target repository checkout.
-Use the scripts from their installed directory.
+Run the CLI from the target repository checkout.
+Use the installed path to `scripts/pr_comments.py`.
 The examples use a repository-local installation at `skills/resolve-pr-comments`.
 
 ```sh
-skills/resolve-pr-comments/scripts/pr-threads.sh 42
-skills/resolve-pr-comments/scripts/reply.sh 42 123456 --body-file /tmp/reply.md
-skills/resolve-pr-comments/scripts/resolve.sh PRRT_example
-skills/resolve-pr-comments/scripts/reply.sh --top 42 --body-file /tmp/reply.md
+uv run skills/resolve-pr-comments/scripts/pr_comments.py --help
+uv run skills/resolve-pr-comments/scripts/pr_comments.py list 42
+uv run skills/resolve-pr-comments/scripts/pr_comments.py reply 42 --comment 123456 --body-file /tmp/reply.md
+uv run skills/resolve-pr-comments/scripts/pr_comments.py reply 42 --top --body 'An answer.'
+uv run skills/resolve-pr-comments/scripts/pr_comments.py resolve PRRT_example
 ```
 
-The scripts require `gh` and `jq` on `PATH`.
-They use the repository and host that `gh repo view` selects for the current checkout.
-Check that selection with `gh repo view` before use.
-The scripts pass the selected host to each API call.
+## Dependencies and authentication
+
+Use Python 3.11 or later and an authenticated GitHub CLI (`gh`) on `PATH`.
+[uv](https://docs.astral.sh/uv/guides/scripts/) installs the dependency declared in the script's inline metadata.
+No manual virtual environment setup is necessary.
+You can also run the script with Python in an environment that has `httpx>=0.28,<1`.
+
+The CLI uses Python's standard `argparse`, `json`, and `subprocess` modules.
+[HTTPX](https://www.python-httpx.org/quickstart/) handles HTTPS requests, JSON bodies, timeouts, and HTTP errors.
+`gh repo view` selects the repository and host from the current checkout.
+`gh auth token --hostname HOST` supplies the credentials for that host.
+The CLI uses GitHub.com or GitHub Enterprise Server API paths as appropriate.
+Check the target with `gh repo view` before use.
+
 Read access is sufficient for inspection.
 Posting and resolution need the permissions that GitHub requires for those actions.
+Credentials stay in memory and request headers.
+The CLI does not print credentials or GitHub CLI error output.
 
 ## Read feedback
 
-`pr-threads.sh [PR_NUMBER]` defaults to the current branch's PR.
+`list [PR_NUMBER]` defaults to the current branch's PR.
 It prints one JSON object with these fields:
 
 | Field | Content |
@@ -35,13 +48,13 @@ It prints one JSON object with these fields:
 | `reviews` | Review summaries, states, and commit IDs |
 
 Each inline thread includes `thread_id`, `reply_to`, `path`, `line`, `outdated`, and `comments`.
-`reply_to` is the first comment's REST database ID.
+`reply_to` is the first comment's REST database ID, or null for an empty thread.
 `thread_id` is the GraphQL node ID.
 Each comment includes its author, body, and URL.
 Deleted authors appear as null.
-The script follows pagination for threads, nested comments, conversation comments, and reviews.
-If any API request fails, the script exits without a partial feedback object.
+The CLI follows pagination for threads, nested comments, conversation comments, and reviews.
 
+If any API request fails, the CLI exits without a partial feedback object.
 Review summary bodies can contain requests that do not appear in inline threads.
 Reply to these with a conversation comment that identifies the review URL.
 GitHub does not support thread resolution for conversation comments or review summaries.
@@ -49,37 +62,40 @@ GitHub does not support thread resolution for conversation comments or review su
 ## Reply
 
 ```sh
-reply.sh PR_NUMBER REPLY_TO_COMMENT_ID 'Fixed in abc1234.'
-reply.sh --top PR_NUMBER 'The documented behavior is intentional.'
-reply.sh PR_NUMBER REPLY_TO_COMMENT_ID --body-file /tmp/reply.md
-reply.sh --top PR_NUMBER --body-file /tmp/reply.md
+uv run /path/to/pr_comments.py reply 42 --comment 123456 --body 'Fixed in abc1234.'
+uv run /path/to/pr_comments.py reply 42 --top --body-file /tmp/reply.md
 ```
 
-A reply prints the comment URL.
-Use `--body-file` for multiline text or text with shell syntax.
-The file must contain nonempty text.
-A quoted body argument remains available for short replies.
+Choose exactly one target: `--comment COMMENT_ID` or `--top`.
+Choose exactly one body source: `--body TEXT` or `--body-file PATH`.
+The CLI reads body files as UTF-8 and preserves their content, including trailing newlines.
+Use a file for multiline text or text with shell syntax.
+The reply body must contain non-whitespace text.
+
 An inline reply uses the review comment reply endpoint.
 A conversation reply uses the issue comment endpoint for the PR number.
+A successful reply prints the comment URL.
 
 ## Resolve
 
 ```sh
-resolve.sh THREAD_ID
+uv run /path/to/pr_comments.py resolve PRRT_example
 ```
 
-The script prints `true` after a successful resolution.
+The CLI prints `true` after a successful resolution.
 It exits with an error if GitHub returns a false or missing resolution state.
 It cannot verify that you replied, pushed the fix, or ran the checks.
 Follow the skill workflow before you call it.
 
 ## Errors and limits
 
-Invalid arguments fail before an API request.
-API, permission, and rate limit errors stop the script.
+The CLI uses exit code 0 for success, 1 for request failures, and 2 for argument errors.
+Invalid arguments and empty bodies fail before authentication or an API request.
+Network, API, permission, rate limit, and GraphQL errors stop the command.
+Requests have a 30-second inactivity timeout.
+The CLI does not automatically retry writes, which could duplicate replies.
 If a comment ID is stale, read the feedback again before retrying.
-If permissions are insufficient, report the blocked action and leave the thread open.
 
-These scripts do not edit code, push commits, merge branches, or wait for reviews.
-They take a snapshot of feedback through several requests.
+The CLI does not edit code, push commits, merge branches, or wait for reviews.
+It takes a snapshot of feedback through several requests.
 If the head changes during a pass, inspect the new code and feedback before resolving affected threads.
