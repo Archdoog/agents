@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Value"
+  short_description: "Review test value and fix costly or weak tests"
+  default_prompt: "Use $test-value to check agent-written tests, classify their value, and report changes worth making."
