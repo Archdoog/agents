@@ -1,6 +1,0 @@
-#!/usr/bin/env python3
-"""Run the writing-for-code CLI with the process arguments."""
-
-from writing_for_code.cli import main
-
-raise SystemExit(main())
