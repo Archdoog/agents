@@ -3,10 +3,10 @@ set -euo pipefail
 
 usage() {
     printf '%s\n' \
-        'Usage: bash install.sh [--agent claude|codex] [options]' \
+        'Usage: bash install.sh [--agent claude|codex|cursor|gemini] [options]' \
         '' \
         'Link skills with SKILL.md into the selected skills directory.' \
-        '  --agent NAME          Select claude (default) or codex.' \
+        '  --agent NAME          Select claude (default), codex, cursor, or gemini.' \
         '  --skills-dir PATH     Use a custom skills directory.' \
         '  --register            Update the selected agent instruction file.' \
         '  --instructions-file PATH  Update a custom instruction file.' \
@@ -17,6 +17,8 @@ usage() {
         '' \
         'Defaults: Claude uses ~/.claude/skills and ~/.claude/CLAUDE.md.' \
         'Codex uses ~/.agents/skills and ~/.codex/AGENTS.md (respects CODEX_HOME).' \
+        'Cursor uses ~/.cursor/skills and ~/.cursor/rules/writing-for-code.mdc.' \
+        'Gemini CLI uses ~/.gemini/skills and ~/.gemini/GEMINI.md.' \
         'Example: bash install.sh --agent codex --register' \
         'Custom: bash install.sh --skills-dir /path/to/skills' \
         'Add --instructions-file PATH to register a custom instruction file.'
@@ -63,12 +65,22 @@ case "$agent" in
         instructions_file=${instructions_file:-"$HOME/.claude/CLAUDE.md"}
         ;;
     codex)
-        "$legacy_claude" && fail 'Use --register with --agent codex.'
         target_dir=${target_dir:-"$HOME/.agents/skills"}
         instructions_file=${instructions_file:-"${CODEX_HOME:-$HOME/.codex}/AGENTS.md"}
         ;;
-    *) fail "Unknown agent: $agent. Use claude or codex." ;;
+    cursor)
+        target_dir=${target_dir:-"$HOME/.cursor/skills"}
+        instructions_file=${instructions_file:-"$HOME/.cursor/rules/writing-for-code.mdc"}
+        ;;
+    gemini)
+        target_dir=${target_dir:-"$HOME/.gemini/skills"}
+        instructions_file=${instructions_file:-"$HOME/.gemini/GEMINI.md"}
+        ;;
+    *) fail "Unknown agent: $agent. Use claude, codex, cursor, or gemini." ;;
 esac
+if "$legacy_claude" && [[ "$agent" != claude ]]; then
+    fail "Use --register with --agent $agent."
+fi
 [[ "$target_dir" == /* ]] || target_dir="$PWD/$target_dir"
 [[ "$instructions_file" == /* ]] || instructions_file="$PWD/$instructions_file"
 begin='<!-- writing-for-code:begin -->'
@@ -83,6 +95,9 @@ write_block() {
 
 update_instructions() {
     local line line_end last_end=$'\n' state=0 seen=0
+    if [[ "$agent" == cursor && "$instructions_file" == *.mdc && ! -s "$instructions_file" ]]; then
+        printf '%s\n' '---' 'alwaysApply: true' '---' ''
+    fi
     while true; do
         line_end=$'\n'
         IFS= read -r line || line_end=''
