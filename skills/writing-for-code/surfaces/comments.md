@@ -17,4 +17,4 @@ For a workaround, name the affected condition and its removal condition when kno
 Fetch new external references before citing them. Prefer versioned documentation or commit permalinks.
 
 Preserve tool directives, suppression comments, copyright headers, and license notices.
-Review only comments within the requested scope. A checker flag is not proof that a comment should disappear.
+Review only comments within the requested scope.

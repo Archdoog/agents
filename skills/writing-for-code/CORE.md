@@ -1,7 +1,7 @@
 # Shared Guidance
 
 Write for a named reader with a specific task. Give that reader the facts needed to act or understand.
-Natural technical writing is the goal. Minimum length and a clean lint report are not goals by themselves.
+Natural technical writing is the goal.
 
 ## Before Writing
 
@@ -78,6 +78,5 @@ A single passive sentence, hedge, or dash does not justify an edit.
 Silently apply [PRUNE.md](PRUNE.md) to every authored or revised passage.
 Compare the result with the source for factual loss or changed meaning.
 Check examples, links, and claims of verification against actual evidence.
-Use available lint checks for mechanical problems. Treat subjective flags as prompts for judgment, not deletion orders.
 
 Request the fresh-eyes review when PRUNE requires it. Do not claim an independent review when none occurred.
