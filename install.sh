@@ -3,13 +3,23 @@ set -euo pipefail
 
 usage() {
     printf '%s\n' \
-        'Usage: bash install.sh [--dry-run] [--force] [--claude-md]' \
+        'Usage: bash install.sh [--agent claude|codex] [options]' \
         '' \
-        'Link skills with SKILL.md into ~/.claude/skills.' \
-        '  --dry-run    Show planned changes without writing files.' \
-        '  --force      Replace files and symlinks, but never real directories.' \
-        '  --claude-md  Add or replace the managed block in ~/.claude/CLAUDE.md.' \
-        '  -h, --help   Show this help.'
+        'Link skills with SKILL.md into the selected skills directory.' \
+        '  --agent NAME          Select claude (default) or codex.' \
+        '  --skills-dir PATH     Use a custom skills directory.' \
+        '  --register            Update the selected agent instruction file.' \
+        '  --instructions-file PATH  Update a custom instruction file.' \
+        '  --dry-run             Show planned changes without writing files.' \
+        '  --force               Replace files and symlinks, but never real directories.' \
+        '  --claude-md           Register Claude instructions (legacy option).' \
+        '  -h, --help            Show this help.' \
+        '' \
+        'Defaults: Claude uses ~/.claude/skills and ~/.claude/CLAUDE.md.' \
+        'Codex uses ~/.agents/skills and ~/.codex/AGENTS.md (respects CODEX_HOME).' \
+        'Example: bash install.sh --agent codex --register' \
+        'Custom: bash install.sh --skills-dir /path/to/skills' \
+        'Add --instructions-file PATH to register a custom instruction file.'
 }
 
 fail() {
@@ -19,29 +29,55 @@ fail() {
 
 dry_run=false
 force=false
-claude_md_enabled=false
-for arg in "$@"; do
-    case "$arg" in
+register=false
+legacy_claude=false
+agent=claude
+target_dir=''
+instructions_file=''
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --agent|--skills-dir|--instructions-file)
+            [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || fail "Missing value for $1"
+            case "$1" in
+                --agent) agent=$2 ;;
+                --skills-dir) target_dir=$2 ;;
+                --instructions-file) instructions_file=$2; register=true ;;
+            esac
+            shift
+            ;;
         --dry-run) dry_run=true ;;
         --force) force=true ;;
-        --claude-md) claude_md_enabled=true ;;
+        --register) register=true ;;
+        --claude-md) register=true; legacy_claude=true ;;
         -h|--help) usage; exit 0 ;;
-        *) printf 'install.sh: Unknown argument: %s\n' "$arg" >&2; usage >&2; exit 2 ;;
+        *) printf 'install.sh: Unknown argument: %s\n' "$1" >&2; usage >&2; exit 2 ;;
     esac
+    shift
 done
 
 [[ -n "${HOME:-}" ]] || fail 'HOME is empty. Set HOME before installation.'
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
-claude_dir="$HOME/.claude"
-target_dir="$claude_dir/skills"
-claude_md="$claude_dir/CLAUDE.md"
+case "$agent" in
+    claude)
+        target_dir=${target_dir:-"$HOME/.claude/skills"}
+        instructions_file=${instructions_file:-"$HOME/.claude/CLAUDE.md"}
+        ;;
+    codex)
+        "$legacy_claude" && fail 'Use --register with --agent codex.'
+        target_dir=${target_dir:-"$HOME/.agents/skills"}
+        instructions_file=${instructions_file:-"${CODEX_HOME:-$HOME/.codex}/AGENTS.md"}
+        ;;
+    *) fail "Unknown agent: $agent. Use claude or codex." ;;
+esac
+[[ "$target_dir" == /* ]] || target_dir="$PWD/$target_dir"
+[[ "$instructions_file" == /* ]] || instructions_file="$PWD/$instructions_file"
 begin='<!-- writing-for-code:begin -->'
 end='<!-- writing-for-code:end -->'
 
 write_block() {
     printf '%s\n' "$begin" \
         'Use the writing-for-code skill for technical prose and code comments.' \
-        'Read ~/.claude/skills/writing-for-code/SKILL.md before writing.' \
+        "Read $target_dir/writing-for-code/SKILL.md before writing." \
         "$end"
 }
 
@@ -60,16 +96,16 @@ update_instructions() {
             elif [[ "$line" == "$end" && "$state" == 1 ]]; then
                 state=0
             else
-                fail 'Invalid managed markers in CLAUDE.md. Repair the block before installation.'
+                fail 'Invalid managed markers in the instruction file. Repair the block before installation.'
             fi
         elif [[ "$state" == 0 ]]; then
             printf '%s%s' "$line" "$line_end"
         fi
     done
-    [[ "$state" == 0 ]] || fail 'Incomplete managed block in CLAUDE.md. Repair the block before installation.'
+    [[ "$state" == 0 ]] || fail 'Incomplete managed block in the instruction file. Repair the block before installation.'
     if [[ "$seen" == 0 ]]; then
         [[ -n "$last_end" ]] || printf '\n'
-        [[ ! -s "$claude_md" ]] || printf '\n'
+        [[ ! -s "$instructions_file" ]] || printf '\n'
         write_block
     fi
 }
@@ -89,12 +125,12 @@ for source in "$root"/skills/*; do
 done
 [[ ${#sources[@]} -gt 0 ]] || fail 'No skills contain SKILL.md. Check the source directory.'
 
-if "$claude_md_enabled"; then
+if "$register"; then
     [[ -f "$root/skills/writing-for-code/SKILL.md" ]] || fail 'The writing-for-code skill is missing. Restore it before registration.'
-    [[ ! -L "$claude_md" ]] || fail 'CLAUDE.md is a symlink. Use a regular file before registration.'
-    [[ ! -e "$claude_md" || -f "$claude_md" ]] || fail 'CLAUDE.md is not a regular file.'
+    [[ ! -L "$instructions_file" ]] || fail 'The instruction file is a symlink. Use a regular file before registration.'
+    [[ ! -e "$instructions_file" || -f "$instructions_file" ]] || fail 'The instruction file is not a regular file.'
     input=/dev/null
-    [[ ! -e "$claude_md" ]] || input=$claude_md
+    [[ ! -e "$instructions_file" ]] || input=$instructions_file
     update_instructions < "$input" > /dev/null
 fi
 
@@ -115,14 +151,16 @@ for source in "${sources[@]}"; do
     ln -s -- "$source" "$target"
 done
 
-if "$claude_md_enabled"; then
-    printf 'Update managed block: %s\n' "$claude_md"
+if "$register"; then
+    printf 'Update managed block: %s\n' "$instructions_file"
     "$dry_run" && exit 0
-    temp=$(mktemp "$claude_dir/.CLAUDE.md.XXXXXX")
+    instructions_dir=$(dirname -- "$instructions_file")
+    mkdir -p -- "$instructions_dir"
+    temp=$(mktemp "$instructions_dir/.instructions.XXXXXX")
     trap 'rm -f -- "$temp"' EXIT
-    if [[ -f "$claude_md" ]]; then
-        cp -p -- "$claude_md" "$temp"
+    if [[ -f "$instructions_file" ]]; then
+        cp -p -- "$instructions_file" "$temp"
     fi
     update_instructions < "$input" > "$temp"
-    mv -- "$temp" "$claude_md"
+    mv -- "$temp" "$instructions_file"
 fi
