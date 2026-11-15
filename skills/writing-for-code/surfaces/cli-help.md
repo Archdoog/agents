@@ -1,8 +1,9 @@
 # CLI Help
 
-Use strict mode. Describe what the command does before listing its syntax.
+Keep each sentence to at most 20 words. Use consistent operational wording.
+Describe what the command does before listing its syntax.
 Show required arguments and optional arguments with the CLI's established notation.
-For each option, state its effect, accepted values, default, and important interactions when applicable.
+For each option, state its effect, accepted or example values, default, and important interactions when applicable.
 
 Include one real example for the common task. State its working directory or input requirements when needed.
 Explain stdin, stdout, stderr, file changes, and exit codes where users or scripts depend on them.

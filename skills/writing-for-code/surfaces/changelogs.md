@@ -1,6 +1,6 @@
 # Changelogs and Release Notes
 
-Use flavored mode. Follow the repository's categories, version format, and release process.
+Follow the repository's categories, version format, and release process.
 Describe observable behavior for users or integrators, not the sequence of file edits.
 Keep internal refactors out unless they change a supported contract or matter to the intended reader.
 

@@ -1,6 +1,6 @@
 # API, Module, and Package Documentation
 
-Use flavored mode. Code syntax and identifiers remain outside the writing rules.
+Code syntax and identifiers remain outside the writing rules.
 Document public APIs that you add or whose contract you change, including modules and packages.
 Use the repository's documentation generator and established language conventions.
 

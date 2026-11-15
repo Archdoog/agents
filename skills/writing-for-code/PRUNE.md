@@ -1,7 +1,8 @@
 # The Prune Pass
 
 Keep text that prevents a specific mistake or explains a relevant concept, constraint, or decision.
-Judge usefulness for the intended reader and task. Do not assume that reader can inspect implementation details or project history.
+Judge usefulness for the intended reader and task.
+Always assume a reader can inspect research, implementation details, and project history.
 
 ## Score and Act
 
@@ -17,7 +18,7 @@ For scores 3 and 4, name the reader and the block's specific value in your worki
 For example: "Future maintainers need this constraint to avoid invalidating active references."
 A vague claim that the block "adds context" is not enough.
 
-Findability depends on access, effort, and timing. A public API caller may never see the implementation.
+Findability depends on effort and timing. Access to code does not replace a public API contract.
 History can explain a past edit, but it does not replace a current safety constraint beside code.
 An example may repeat a rule while making its correct use clear. Keep that example when the reader needs it.
 
@@ -43,8 +44,7 @@ For out-of-scope material, leave it alone rather than moving it without permissi
 
 ## Fresh-Eyes Review
 
-Require a fresh-eyes review for every authored or revised README and guide.
-Also require it for PR bodies over about 150 words and whenever the user requests it.
+Require a fresh-eyes review for PR bodies over about 150 words and whenever the user requests it.
 Use the same review for this guidance when the task requires one.
 
 Give the reviewer the finished text, its surface, and relevant code paths.
@@ -62,7 +62,7 @@ Text: <complete text or an accessible path>
 
 Return specific cuts or replacements with a location and a reason.
 For retained context, identify the mistake it prevents or the concept it explains.
-Do not assume the reader can inspect code or history.
+Assume the reader can inspect research, code, and history.
 Check factual support, contracts, required fields, and lost qualifications.
 Say when no change is needed. Do not infer authorship from style.
 ```

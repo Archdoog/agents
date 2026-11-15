@@ -1,6 +1,7 @@
 # Procedures and Runbooks
 
-Use strict mode. State the goal, prerequisites, required access, and starting state before the steps.
+Keep each sentence to at most 20 words. Use consistent operational wording.
+State the goal, prerequisites, required access, and starting state before the steps.
 Name supported versions or environments when they affect the commands.
 
 Use numbered steps in execution order, with one action per step.

@@ -1,8 +1,9 @@
 # Issues
 
-Use flavored mode. Read the repository's issue templates, terminology, and accepted issue examples.
+Read the repository's issue templates, terminology, and accepted issue examples.
 Use the existing fields and workflow instead of imposing a new format.
 
+Prefer standard patterns, such as numbered reproduction steps or a user story.
 For a bug, state observed behavior, expected behavior, environment, and reproducible steps.
 Include exact diagnostics where safe. Remove credentials and personal data before publication.
 Separate a suspected cause from an established cause.

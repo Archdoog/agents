@@ -11,24 +11,24 @@ description: >-
 
 Read [CORE.md](CORE.md) and [PRUNE.md](PRUNE.md). Then load only the surface that matches the task.
 
-| Surface | Guidance | Mode |
-|---|---|---|
-| Inline comments | [comments](surfaces/comments.md) | Flavored |
-| API, module, and package docs | [docstrings](surfaces/docstrings.md) | Flavored |
-| README | [readmes](surfaces/readmes.md) | Flavored |
-| Tutorials, how-to guides, references, explanations | [guides](surfaces/guides.md) | Flavored |
-| Architecture decision records | [adrs](surfaces/adrs.md) | Flavored |
-| Procedures and runbooks | [procedures](surfaces/procedures.md) | Strict |
-| Error messages | [errors](surfaces/errors.md) | Strict |
-| Log messages | [logs](surfaces/logs.md) | Strict |
-| CLI help | [cli-help](surfaces/cli-help.md) | Strict |
-| Changelogs and release notes | [changelogs](surfaces/changelogs.md) | Flavored |
-| Commit messages | [commits](surfaces/commits.md) | Flavored |
-| Pull requests | [prs](surfaces/prs.md) | Flavored |
-| Issues | [issues](surfaces/issues.md) | Flavored |
-| Code reviews | [reviews](surfaces/reviews.md) | Flavored |
+| Surface | Guidance |
+|---|---|
+| Inline comments | [comments](surfaces/comments.md) |
+| API, module, and package docs | [docstrings](surfaces/docstrings.md) |
+| README | [readmes](surfaces/readmes.md) |
+| Tutorials, how-to guides, references, explanations | [guides](surfaces/guides.md) |
+| Architecture decision records | [adrs](surfaces/adrs.md) |
+| Procedures and runbooks | [procedures](surfaces/procedures.md) |
+| Error messages | [errors](surfaces/errors.md) |
+| Log messages | [logs](surfaces/logs.md) |
+| CLI help | [cli-help](surfaces/cli-help.md) |
+| Changelogs and release notes | [changelogs](surfaces/changelogs.md) |
+| Commit messages | [commits](surfaces/commits.md) |
+| Pull requests | [prs](surfaces/prs.md) |
+| Issues | [issues](surfaces/issues.md) |
+| Code reviews | [reviews](surfaces/reviews.md) |
 
-For mixed documents, apply strict mode to operational steps and diagnostics.
+For operational steps in mixed documents, follow [procedures](surfaces/procedures.md).
 Do not load every surface for one task.
 
 Repository instructions, templates, and established terminology take precedence over these defaults.

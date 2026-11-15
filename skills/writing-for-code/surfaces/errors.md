@@ -1,6 +1,7 @@
 # Error Messages
 
-Use strict mode. Identify the failed operation and the affected item when safe.
+Keep each sentence to at most 20 words. Use consistent operational wording.
+Identify the failed operation and the affected item when safe.
 If you know the cause or recovery, give a useful next action.
 If the cause is unknown, state the observed failure rather than guessing.
 

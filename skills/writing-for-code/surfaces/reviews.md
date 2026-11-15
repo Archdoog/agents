@@ -1,6 +1,6 @@
 # Code Reviews
 
-Use flavored mode. Read the repository's review conventions and the relevant code before writing findings.
+Read the repository's review conventions and the relevant code before writing findings.
 Lead with defects, ordered by their effect or severity.
 For each finding, identify a location, the triggering condition, and the observable consequence.
 Give enough evidence for the author to check the claim.

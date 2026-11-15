@@ -1,11 +1,12 @@
 # Architecture Decision Records
 
-Use flavored mode. Follow the repository's ADR template, numbering, status, and supersession rules.
+Follow the repository's ADR template, numbering, status, and supersession rules.
 Read related records before writing a new one.
 
 State the decision and the constraints that made it necessary.
 Record the alternatives that readers would reasonably consider and the reasons for rejecting them.
-Separate measured evidence from assumptions. Identify unresolved questions without inventing a consensus.
+Separate measured evidence from assumptions. Always use links for references.
+Identify unresolved questions without inventing a consensus.
 Name the practical consequences, including costs, limits, and conditions that could require reconsideration.
 
 Keep rationale that helps a future maintainer evaluate or revise the decision.

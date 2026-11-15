@@ -1,11 +1,12 @@
 # Inline Comments
 
-Use flavored mode. Explain what a maintainer cannot readily infer from the nearby code.
+Use comments sparingly and only when necessary.
+Explain what a maintainer cannot readily infer from the nearby code.
 Keep constraints, surprising behavior, safety risks, workarounds, and useful debugging clues.
 State a symptom and its cause, not the story of the investigation.
 
 A reference to other code is useful only if it explains a dependency or constraint.
-"Matches the other client" is not a reason. State the shared requirement if it matters.
+"Matches the other client (or ADR-123)" is not a reason. State the shared requirement if it matters.
 Do not ban platform names or issue links when they identify a real compatibility requirement or an active workaround.
 Follow repository conventions for TODOs and tracker links.
 

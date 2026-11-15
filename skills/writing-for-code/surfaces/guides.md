@@ -1,6 +1,5 @@
 # Guides
 
-Use flavored mode for explanations and strict mode for operational steps.
 Choose the reader's need with [Diataxis](https://diataxis.fr/):
 
 | Form | Reader's need | Content |
@@ -12,8 +11,7 @@ Choose the reader's need with [Diataxis](https://diataxis.fr/):
 
 Give a page one primary purpose. Link to another form when a digression would interrupt the reader's task.
 Do not turn a tutorial into an option catalog or hide a required step inside an explanation.
-Keep conceptual background that the intended reader needs. Do not assume access to implementation details.
+Keep conceptual background that the intended reader needs. Link to implementation details when they support the explanation.
 
 Use runnable examples with explicit setup and expected results.
 Follow [procedures.md](procedures.md) for instructions that change a system.
-Request the fresh-eyes review in [PRUNE.md](../PRUNE.md) for every authored or revised guide.
