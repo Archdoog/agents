@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Value"
+  short_description: "Review the value of code in a diff and reduce the excess"
+  default_prompt: "Use $code-value to check the source code in this branch diff, classify each component, and report changes worth making."
