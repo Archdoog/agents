@@ -7,7 +7,7 @@ description: Evaluate the source code in a PR or branch diff by required behavio
 
 Judge each added component by the behavior it delivers and the cost of keeping it correct.
 Each added line is a place for a defect and a cost for each later reader.
-A small change with a known limit is often safer than a large change that covers every case.
+A small change with a known limit can often be safer in the long term than a large change that covers every case.
 
 ## Modes and scope
 
@@ -76,14 +76,11 @@ The diff is not the only protection. Count the other layers before you call a gu
 These layers are the type system, validation at the boundary, the test suite, code review, monitoring, and bug reports.
 A change can leave a rare case open. A stated limit costs less than 100 lines that no one can reason about.
 
-Keep protection in these cases, even when it is large:
+Keep protection, even when large, when:
 
-- Input crosses a trust boundary: user input, network data, files, or other processes.
-- A failure loses or corrupts data, moves money, exposes private data, or bypasses access control.
-- The requirement names the case, or the bug history shows that the case occurred.
-
-To call a condition impossible, name the invariant that prevents it: a type, a single caller, or validation upstream.
-"Unlikely" without a named invariant takes the Needs context status, not the Remove class.
+- It likely fulfills a real goal of the current task.
+- It likely fulfills a goal of the project and its current scope.
+- An assessment of the potential risk is worth discussing with the developer. Ask the developer and decide on a solution together.
 
 ### Report the decisions
 
