@@ -1,0 +1,6 @@
+interface:
+  display_name: "Paint with Code"
+  short_description: "Develop code that tells the story of its behavior"
+  default_prompt: "Use $paint-with-code to shape this coding task around a behavioral narrative, from outline through detail."
+policy:
+  allow_implicit_invocation: true
