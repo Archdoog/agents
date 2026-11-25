@@ -1,0 +1,6 @@
+interface:
+  display_name: "Paint with Code on Demand"
+  short_description: "Apply behavioral narrative design when requested"
+  default_prompt: "Use $paint-with-code-on-demand to develop this change from a behavioral outline through the detail it needs."
+policy:
+  allow_implicit_invocation: false
